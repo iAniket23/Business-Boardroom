@@ -31,9 +31,23 @@ export default function BusinessBoardroom() {
 
   return (
     <main className="min-h-screen bg-black text-white p-8 font-mono">
-      <h1 className="text-4xl font-bold mb-2">Business Boardroom</h1>
+       <div className="flex items-center justify-between mb-8">
+        <h1 className="text-4xl font-bold">Business Boardroom</h1>
 
-      <div className="flex justify-around text-lg mt-6 mb-4">
+        <nav className="flex gap-4 text-sm underline underline-offset-4 text-gray-300">
+          <a href="#slack" className="hover:text-white">Slack</a>
+          <a href="#privacy" className="hover:text-white">Privacy Policy</a>
+          <a href="#support" className="hover:text-white">Support</a>
+        </nav>
+      </div>
+
+      <div className="text-left text-sm mt-2 mb-2 px-0">
+        <p>
+          Designed for product ideation, marketing analysis, and strategic decision-making, it integrates with Slack to allow agent interactions in team channels, as well as a standalone frontend website for web-based simulations. At its core, it uses LangGraph to coordinate the flow of conversation between intelligent agents—CEO, Marketing Strategist, and Marketing Intern—each powered by few-shot prompting and controlled generation techniques. The app supports long context windows to maintain continuity across agent turns, and uses structured output for clean integration with enterprise tools or further evaluation pipelines.
+        </p>
+      </div>
+
+      <div className="flex justify-around text-lg mt-2">
         <span>👔 CEO</span>
         <span>🧃 Marketing Intern</span>
         <span>📊 Analyst</span>
