@@ -1,6 +1,9 @@
 import os
+import re
 import random
 import asyncio
+import requests
+import threading
 from typing import TypedDict
 from flask import Flask, request, jsonify
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -8,27 +11,33 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.graph import StateGraph, END
 
 # Load API keys
-with open("./keys/langsmith.txt", "r") as f:
+with open("langsmith.txt", "r") as f:
     lkey = f.read().strip()
 
-with open("./keys/api.txt", "r") as f:
+with open("api.txt", "r") as f:
     gkey = f.read().strip()
+
+with open("slackclient.txt", "r") as f:
+    slack_token = f.read().strip()
+
+with open("slackclientsecret.txt", "r") as f:
+    slack_client_secret = f.read().strip()
 
 # Set environment variables
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 os.environ["LANGCHAIN_API_KEY"] = lkey
 os.environ["LANGCHAIN_PROJECT"] = "Marketing Slack Sim"
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./keys/cred.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "cred.json"
 
 # Initialize model
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", GOOGLE_API_KEY=gkey)
 
 # Role prompts
 PROMPTS = {
-    "ceo": "You are a ruthless CEO who prioritizes maximizing profit while minimizing costs. You are intelligent and smart. You make sure that everyone is on the same page. You are trying to impress the board of directors. You are very critical of the Marketing Intern's ideas but admire the bravery. You value the Marketing Strategist's inputs.",
-    "marketing_intern": "You are a Marketing Intern with unpredictable ideas, sometimes genius, sometimes absurd. You are try to impress the CEO. You talk with a lot of enthusiasm. You do not shut down anyone else's ideas.",
-    "marketing_strategist": "You are a Marketing Strategist who critically analyzes marketing ideas for feasibility. You are trying to impress the CEO. You want to see the product thrive. You are very critical of the Marketing Intern's ideas. You are very critical of your own ideas.",
+    "ceo": "You are a ruthless CEO who prioritizes maximizing profit while minimizing costs. You are intelligent and smart.",
+    "marketing_intern": "You are a Marketing Intern with unpredictable ideas, sometimes genius, sometimes absurd. You talk with a lot of enthusiasm. You do not shut down anyone else's ideas.",
+    "marketing_strategist": "You are a Marketing Strategist who critically analyzes marketing ideas for feasibility. You want to see the product thrive. You love to give constructive criticism.",
 }
 
 class ConversationState(TypedDict):
@@ -78,7 +87,7 @@ graph = builder.compile()
 async def run_conversation(product_description: str, init_count: int):
     state: ConversationState = {
         "history": f"**Product**: {product_description}\n",
-        "turn_count": 1,
+        "turn_count": 0,
         "init_count": init_count,
         "current_agent": "ceo",
     }
@@ -100,12 +109,104 @@ def start_conversation(product_description: str, init_count: int):
         return result
     return asyncio.run(collect_conversation())
 
+def format_conversation_for_slack(convo: str) -> str:
+    role_emojis = {
+        "product": "📦",
+        "ceo": "\n👔",
+        "marketing_intern": "\n🧃",
+        "marketing_strategist": "\n📊"
+    }
+
+    output = []
+    output.append("*🧠 Marketing Brainstorm Session*")
+
+    pattern = re.compile(r"\*\*(\w+)\*\*: (.*)", re.IGNORECASE)
+    current_role = None
+
+    for paragraph in convo.strip().split("\n\n"):
+        match = pattern.match(paragraph.strip())
+
+        if match:
+            current_role = match.group(1).lower()
+            message = match.group(2).strip()
+
+            emoji = role_emojis.get(current_role, "💬")
+            role_display = match.group(1).replace("_", " ").title()
+
+            output.append(f"{emoji} *{role_display}*: {message}")
+        else:
+            if current_role:
+                output.append(f"  {paragraph.strip()}")
+            else:
+                output.append(paragraph.strip())
+    slack_friendly = "\n".join(output)
+    slack_friendly = re.sub(r"\*\*(.*?)\*\*", r"*\1*", slack_friendly)
+    return slack_friendly
+
 # Flask App
 app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({"message": "Welcome to the marketing chatbot API!"})
+
+@app.route("/slack/oauth_redirect")
+def oauth_redirect():
+    code = request.args.get("code")
+    client_id = slack_token
+    client_secret = slack_client_secret
+
+    response = requests.post("https://slack.com/api/oauth.v2.access", data={
+        "code": code,
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "redirect_uri": "https://yourdomain.com/slack/oauth_redirect"
+    })
+
+    data = response.json()
+    if data.get("ok"):
+        # Store access_token and other info as needed
+        return "App installed successfully!"
+    else:
+        return f"Error installing app: {data.get('error')}"
+
+@app.route("/slack", methods=["POST"])
+def slack_command():
+    text = request.form.get("text", "")
+    user = request.form.get("user_name", "someone")
+    response_url = request.form.get("response_url")
+
+    if not text:
+        return jsonify({
+            "response_type": "ephemeral",
+            "text": "Please provide: init_count and product_description"
+        }), 200
+
+    try:
+        parts = text.strip().split(" ", 1)
+        init_count = int(parts[0])
+        product_description = parts[1]
+    except (IndexError, ValueError):
+        return jsonify({
+            "response_type": "ephemeral",
+            "text": "Invalid format.\nUsage: `/simulate 5 AI-powered toothbrush`"
+        }), 200
+
+    def background_sim():
+        result = start_conversation(product_description, init_count)
+        result = format_conversation_for_slack(result)
+        requests.post(response_url, json={
+            "response_type": "in_channel",
+            "text": f"*Marketing Simulation Complete!*\n\n{result}"
+        })
+
+    threading.Thread(target=background_sim).start()
+
+    return jsonify({
+        "response_type": "in_channel",
+        "text": f"🚀 *{user}* started a marketing sim with `{init_count}` turns for:\n> {product_description}\n_Simulating..._"
+    }), 200
+
 
 @app.route("/chat", methods=["POST"])
 def chat():
