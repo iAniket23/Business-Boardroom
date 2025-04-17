@@ -7,7 +7,26 @@ export default function BusinessBoardroom() {
   const [result, setResult] = useState("");
 
   const handleAnalyze = () => {
-    setResult(`Processed: ${text}`);
+    const axios = require('axios');
+    let data = '';
+
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: 'https://boardroom-197814739607.us-central1.run.app/',
+      headers: { },
+      data : data
+    };
+
+    axios.request(config)
+      .then((response: { data: any }) => {
+        console.log(JSON.stringify(response.data));
+        setResult(`${response.data["message"]}`);
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+
   };
 
   return (
@@ -15,14 +34,14 @@ export default function BusinessBoardroom() {
       <h1 className="text-4xl font-bold mb-2">Business Boardroom</h1>
 
       <div className="flex justify-around text-lg mt-6 mb-4">
-        <span>CEO</span>
-        <span>Intern</span>
-        <span>Analyst</span>
+        <span>👔 CEO</span>
+        <span>🧃 Marketing Intern</span>
+        <span>📊 Analyst</span>
       </div>
 
       <div className="mb-4 border-white">
         <label htmlFor="description" className="block mb-2 text-sm">
-          Product Description
+          Product
         </label>
         <textarea
           id="description"
@@ -41,7 +60,7 @@ export default function BusinessBoardroom() {
       </button>
 
       <div className="border border-white p-4 rounded">
-        <h2 className="text-xl mb-2">Result</h2>
+        <h2 className="text-sm mb-2">Result</h2>
         <p>{result}</p>
       </div>
     </main>
