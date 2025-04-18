@@ -1,32 +1,59 @@
 "use client";
 
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 export default function BusinessBoardroom() {
   const [text, setText] = useState("");
   const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [dots, setDots] = useState("");
+
+  // Dot animation logic
+  useEffect(() => {
+    if (!loading) return;
+
+    let count = 0;
+    const interval = setInterval(() => {
+      count = (count + 1) % 4;
+      setDots(".".repeat(count));
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [loading]);
 
   const handleAnalyze = () => {
-    const axios = require('axios');
-    let data = '';
+    setLoading(true);
+    setResult("");
 
-    let config = {
-      method: 'get',
+    const data = JSON.stringify({
+      product_description: text,
+      init_count: 3,
+    });
+
+    const config = {
+      method: "post",
       maxBodyLength: Infinity,
-      url: 'https://boardroom-197814739607.us-central1.run.app/',
-      headers: { },
-      data : data
+      url: "https://boardroom-197814739607.us-central1.run.app/chathtml",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
     };
 
-    axios.request(config)
-      .then((response: { data: any }) => {
+    axios
+      .request(config)
+      .then((response) => {
         console.log(JSON.stringify(response.data));
-        setResult(`${response.data["message"]}`);
+        setResult(response.data["response"]);
       })
-      .catch((error: any) => {
-        console.log(error);
+      .catch((error) => {
+        console.error(error);
+        setResult("Something went wrong.");
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
   };
 
   return (
@@ -78,7 +105,7 @@ export default function BusinessBoardroom() {
 
       <div className="border border-white p-4 rounded">
         <h2 className="text-sm mb-2">Result</h2>
-        <p>{result}</p>
+        <div dangerouslySetInnerHTML={{ __html: result }} />
       </div>
 
       <div id="slack" className="text-white mt-10 pt-10 scroll-mt-8 px-4 font-mono text-sm leading-relaxed max-w-3xl">
@@ -143,7 +170,7 @@ export default function BusinessBoardroom() {
       </div>
 
       <div id="contact" className="text-white mt-10 pt-10 scroll-mt-8 px-4 font-mono text-sm leading-relaxed max-w-3xl">
-      <h2 className="text-2xl font-bold mb-4">📬 Contact</h2>
+      <h2 className=" text-2xl font-bold mb-4">📬 Contact</h2>
       <p className="text-sm max-w-xl">
         For any issues, feedback, or collaboration inquiries, feel free to reach out via email.
         <br />
