@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 
 export default function BusinessBoardroom() {
   const [text, setText] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
   const [dots, setDots] = useState("");
@@ -25,6 +26,12 @@ export default function BusinessBoardroom() {
   const handleAnalyze = () => {
     setLoading(true);
     setResult("");
+
+    if (!text) {
+      setResult("Please enter a product description.");
+      setLoading(false);
+      return;
+    }
 
     const data = JSON.stringify({
       product_description: text,
@@ -59,16 +66,34 @@ export default function BusinessBoardroom() {
   return (
     <main className="min-h-screen bg-black text-white p-8 font-mono">
 
-        {/* Navbar */}
-        <div className="sticky top-0 z-50 bg-black text-white px-4 py-3 flex justify-between items-center border-b border-white">
-          <h1 className="text-4xl font-bold">👔🧃📊 Business Boardroom</h1>
-          <nav className="space-x-4">
+      {/* Navbar */}
+        <div className="sticky top-0 z-50 bg-black text-white px-4 py-3 border-b border-white">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl md:text-4xl font-bold">👔🧃📊 Business Boardroom</h1>
+            {/* Hamburger Icon - Only shows on small screens */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden text-white focus:outline-none"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Nav Links - Responsive */}
+          <nav
+            className={`flex-col md:flex-row md:flex justify-end mt-2 md:mt-0 space-y-2 md:space-y-0 md:space-x-4 ${
+              mobileMenuOpen ? "flex" : "hidden"
+            } md:flex`}
+          >
             <a href="#home" className="hover:underline">Home</a>
             <a href="#slack" className="hover:underline">Slack</a>
             <a href="#privacy" className="hover:underline">Privacy</a>
             <a href="#contact" className="hover:underline">Contact</a>
           </nav>
         </div>
+
 
       {/* Short description of the app */}
       <div id ="home" className="text-left text-sm mt-2 mb-2 px-0 scroll-mt-18">
@@ -98,13 +123,23 @@ export default function BusinessBoardroom() {
 
       <button
         onClick={handleAnalyze}
-        className="bg-white text-black px-4 py-2 rounded mb-4 hover:bg-gray-400"
+        disabled={loading}
+        className={`px-4 py-2 rounded mb-4 ${
+          loading
+            ? "bg-gray-600 text-white cursor-not-allowed"
+            : "bg-white text-black hover:bg-gray-400"
+        }`}
       >
-        Try
+        Try it out!
       </button>
+
 
       <div className="border border-white p-4 rounded">
         <h2 className="text-sm mb-2">Result</h2>
+        {loading && (
+          <div className="text-sm text-gray-400 mb-2">Analyzing{dots}</div>
+        )}
+
         <div dangerouslySetInnerHTML={{ __html: result }} />
       </div>
 
