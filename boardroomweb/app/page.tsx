@@ -79,10 +79,7 @@ export default function BusinessBoardroom() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-          </div>
-
-          {/* Nav Links - Responsive */}
-          <nav
+            <nav
             className={`flex-col md:flex-row md:flex justify-end mt-2 md:mt-0 space-y-2 md:space-y-0 md:space-x-4 ${
               mobileMenuOpen ? "flex" : "hidden"
             } md:flex`}
@@ -92,11 +89,12 @@ export default function BusinessBoardroom() {
             <a href="#privacy" className="hover:underline">Privacy</a>
             <a href="#contact" className="hover:underline">Contact</a>
           </nav>
+          </div>
         </div>
 
 
       {/* Short description of the app */}
-      <div id ="home" className="text-left text-sm mt-2 mb-2 px-0 scroll-mt-18">
+      <div id ="home" className="text-left text-sm mt-2 mb-2 px-0 scroll-mt-22">
         <p>
           Designed for product ideation, marketing analysis, and strategic decision-making, it integrates with Slack to allow agent interactions in team channels, as well as a standalone frontend website for web-based simulations. At its core, it uses LangGraph to coordinate the flow of conversation between intelligent agents—CEO, Marketing Strategist, and Marketing Intern—each powered by few-shot prompting and controlled generation techniques. The app supports long context windows to maintain continuity across agent turns, and uses structured output for clean integration with enterprise tools or further evaluation pipelines.
         </p>
@@ -143,7 +141,7 @@ export default function BusinessBoardroom() {
         <div dangerouslySetInnerHTML={{ __html: result }} />
       </div>
 
-      <div id="slack" className="text-white mt-10 pt-10 scroll-mt-8 px-4 font-mono text-sm leading-relaxed max-w-3xl">
+      <div id="slack" className="text-white mt-10 pt-10 scroll-mt-12 px-4 font-mono text-sm leading-relaxed max-w-3xl">
         <h2 className="text-2xl font-bold mb-4">🤖 Slack Integration</h2>
         <p className="mb-4">
           This app also comes with a Slack extension that lets you simulate structured business conversations right from your Slack workspace using the <code className="bg-gray-800 px-1 py-0.5 rounded text-white">/simulate</code> slash command.
@@ -163,7 +161,7 @@ export default function BusinessBoardroom() {
       </div>
 
       {/* Privacy Policy */}
-      <div id="privacy" className="text-white mt-10 pt-10 scroll-mt-8 px-4 font-mono text-sm leading-relaxed max-w-3xl">
+      <div id="privacy" className="text-white mt-10 pt-10 scroll-mt-12 px-4 font-mono text-sm leading-relaxed max-w-3xl">
         <h2 className="text-2xl font-bold mb-4">📜 Privacy Policy</h2>
         <p className="mb-2">Last updated: April 17, 2025</p>
 
@@ -204,7 +202,7 @@ export default function BusinessBoardroom() {
         <p className="mb-4">We may update this policy. Changes will be posted here with an updated date.</p>
       </div>
 
-      <div id="contact" className="text-white mt-10 pt-10 scroll-mt-8 px-4 font-mono text-sm leading-relaxed max-w-3xl">
+      <div id="contact" className="text-white mt-10 pt-10 scroll-mt-12 px-4 font-mono text-sm leading-relaxed max-w-3xl">
       <h2 className=" text-2xl font-bold mb-4">📬 Contact</h2>
       <p className="text-sm max-w-xl">
         For any issues, feedback, or collaboration inquiries, feel free to reach out via email.
