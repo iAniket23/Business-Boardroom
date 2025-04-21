@@ -85,7 +85,9 @@ export default function BusinessBoardroom() {
             } md:flex`}
           >
             <a href="#home" className="hover:underline">Home</a>
+            <a href="https://medium.com/@ianiket23/reimagining-the-boardroom-a-genai-powered-business-simulation-80e9c20a41ed" className="hover:underline">Blog</a>
             <a href="#slack" className="hover:underline">Slack</a>
+            <a href="https://www.kaggle.com/code/ianiket23/business-boardroom-kaggle-edition" className="hover:underline">Kaggle</a>
             <a href="#privacy" className="hover:underline">Privacy</a>
             <a href="#contact" className="hover:underline">Contact</a>
           </nav>
