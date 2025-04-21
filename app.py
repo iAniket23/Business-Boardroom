@@ -4,6 +4,7 @@ import random
 import asyncio
 import requests
 import threading
+from flask_cors import CORS
 from typing import TypedDict
 from flask import Flask, request, jsonify
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -109,6 +110,44 @@ def start_conversation(product_description: str, init_count: int):
         return result
     return asyncio.run(collect_conversation())
 
+def format_conversation_for_html(convo: str) -> str:
+    role_emojis = {
+        "product": "📦",
+        "ceo": "👔",
+        "marketing_intern": "🧃",
+        "marketing_strategist": "📊"
+    }
+
+    output = []
+    output.append("<strong>🧠 Marketing Brainstorm Session</strong><br><br>")
+
+    pattern = re.compile(r"\*\*(\w+)\*\*: (.*)", re.IGNORECASE)
+    current_role = None
+
+    for paragraph in convo.strip().split("\n\n"):
+        match = pattern.match(paragraph.strip())
+
+        if match:
+            current_role = match.group(1).lower()
+            message = match.group(2).strip()
+
+            # Replace markdown-style **bold** inside message with <strong>
+            message = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", message)
+
+            emoji = role_emojis.get(current_role, "💬")
+            role_display = match.group(1).replace("_", " ").title()
+
+            output.append(f"{emoji} <strong>{role_display}</strong>: {message}<br><br>")
+        else:
+            if current_role:
+                paragraph = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", paragraph)
+                output.append(f"&nbsp;&nbsp;&nbsp;{paragraph.strip()}<br><br>")
+            else:
+                paragraph = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", paragraph)
+                output.append(f"{paragraph.strip()}<br><br>")
+
+    return "".join(output)
+
 def format_conversation_for_slack(convo: str) -> str:
     role_emojis = {
         "product": "📦",
@@ -145,6 +184,8 @@ def format_conversation_for_slack(convo: str) -> str:
 
 # Flask App
 app = Flask(__name__)
+CORS(app)
+app.config["CORS_HEADERS"] = "Content-Type"
 
 @app.route("/", methods=["GET"])
 def home():
@@ -160,7 +201,7 @@ def oauth_redirect():
         "code": code,
         "client_id": client_id,
         "client_secret": client_secret,
-        "redirect_uri": "https://yourdomain.com/slack/oauth_redirect"
+        "redirect_uri": "https://boardroom-197814739607.us-central1.run.app/slack/oauth_redirect"
     })
 
     data = response.json()
@@ -207,6 +248,25 @@ def slack_command():
         "text": f"🚀 *{user}* started a marketing sim with `{init_count}` turns for:\n> {product_description}\n_Simulating..._"
     }), 200
 
+@app.route("/chathtml", methods=["POST"])
+def chathtml():
+    data = request.json
+    product_description = data.get("product_description", "").strip()
+    init_count = data.get("init_count")
+
+    if not product_description:
+        return jsonify({"error": "Product description is required"}), 400
+
+    try:
+        init_count = int(init_count)
+        if init_count <= 0:
+            raise ValueError()
+    except (ValueError, TypeError):
+        return jsonify({"error": "Initial count must be a positive integer"}), 400
+
+    response = start_conversation(product_description, init_count)
+    response = format_conversation_for_html(response)
+    return jsonify({"response": response})
 
 @app.route("/chat", methods=["POST"])
 def chat():
