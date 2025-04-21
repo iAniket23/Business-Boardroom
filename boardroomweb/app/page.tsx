@@ -9,6 +9,7 @@ export default function BusinessBoardroom() {
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
   const [dots, setDots] = useState("");
+  const [initCount, setInitCount] = useState(3); // State for init_count
 
   // Dot animation logic
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function BusinessBoardroom() {
 
     const data = JSON.stringify({
       product_description: text,
-      init_count: 3,
+      init_count: initCount, // Use the selected init_count value
     });
 
     const config = {
@@ -122,7 +123,42 @@ export default function BusinessBoardroom() {
         />
       </div>
 
-      <button
+      <div className="flex items-center space-x-4">
+        <button
+          onClick={handleAnalyze}
+          disabled={loading}
+          className={`px-4 py-2 rounded mb-4 ${
+            loading
+              ? "bg-gray-600 text-white cursor-not-allowed"
+              : "bg-white text-black hover:bg-gray-400"
+          }`}
+        >
+          Try Now
+        </button>
+
+        <div className="mb-4">
+          <select
+            id="initCount"
+            value={initCount}
+            onChange={(e) => setInitCount(Number(e.target.value))}
+            disabled={loading}
+            className={`w-32 p-2 border border-white text-white bg-black rounded ${
+              loading
+                ? "bg-gray-600 text-white cursor-not-allowed"
+                : "w-32 p-2 border border-white text-white bg-black rounded"
+            }`}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+      </div>
+
+
+      {/* <button
         onClick={handleAnalyze}
         disabled={loading}
         className={`px-4 py-2 rounded mb-4 ${
@@ -132,9 +168,9 @@ export default function BusinessBoardroom() {
         }`}
       >
         Try it out!
-      </button>
+      </button> */}
 
-
+      {/* Result Section */}
       <div className="border border-white p-4 rounded">
         <h2 className="text-sm mb-2">Result</h2>
         {loading && (
