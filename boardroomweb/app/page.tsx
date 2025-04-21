@@ -100,7 +100,7 @@ export default function BusinessBoardroom() {
       {/* Short description of the app */}
       <div id ="home" className="text-left text-sm mt-2 mb-2 px-0 scroll-mt-24">
         <p>
-          Designed for product ideation, marketing analysis, and strategic decision-making, it integrates with Slack to allow agent interactions in team channels, as well as a standalone frontend website for web-based simulations. At its core, it uses LangGraph to coordinate the flow of conversation between intelligent agents—CEO, Marketing Strategist, and Marketing Intern—each powered by few-shot prompting and controlled generation techniques. The app supports long context windows to maintain continuity across agent turns, and uses structured output for clean integration with enterprise tools or further evaluation pipelines.
+          Designed for product ideation, marketing analysis, and strategic decision-making, it integrates with Slack to allow agent interactions in team channels, as well as a standalone frontend website for web-based simulations. At its core, it uses LangGraph to coordinate the flow of conversation between intelligent agents—CEO, Marketing Strategist, and Marketing Intern—each powered by zero-shot prompting and controlled generation techniques. The app supports long context windows to maintain continuity across agent turns, and uses structured output for clean integration with enterprise tools or further evaluation pipelines.
         </p>
       </div>
 
@@ -158,18 +158,6 @@ export default function BusinessBoardroom() {
       </div>
 
 
-      {/* <button
-        onClick={handleAnalyze}
-        disabled={loading}
-        className={`px-4 py-2 rounded mb-4 ${
-          loading
-            ? "bg-gray-600 text-white cursor-not-allowed"
-            : "bg-white text-black hover:bg-gray-400"
-        }`}
-      >
-        Try it out!
-      </button> */}
-
       {/* Result Section */}
       <div className="border border-white p-4 rounded">
         <h2 className="text-sm mb-2">Result</h2>
@@ -198,6 +186,132 @@ export default function BusinessBoardroom() {
           </a>
         </div>
       </div>
+      {/* Deep Dive */}
+      <div className="text-white mt-10 pt-10 scroll-mt-14 px-4 font-mono text-sm leading-relaxed max-w-3xl">
+        <h2 className="text-2xl font-bold mb-4">🌊 Deep dive</h2>
+        <p className="mb-4">
+          This project was developed as part of the <a href="https://www.kaggle.com/competitions/gen-ai-intensive-course-capstone-2025q1" className="underline text-blue-400">Kaggle x Google GenAI Capstone Submission</a>. The goal was to create a simulation of a business boardroom meeting using generative AI. The project leverages LangGraph to facilitate conversations between virtual agents, each representing different roles in a business setting.
+          <br />
+          <br />
+          Know more about the project by watching the video below:
+        </p>
+      </div>
+      <div className="mt-6 w-full max-w-xl aspect-video">
+        <iframe
+          className="w-full h-full rounded-lg"
+          src="https://www.youtube.com/embed/9DlSxQ5jegI"
+          title="Google x Kaggle GenAI Submission - Business Boardroom"
+          frameBorder="5"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+      {/* Use Cases */}
+<div id="use-cases" className="text-white mt-10 pt-10 scroll-mt-14 px-4 font-mono text-sm leading-relaxed max-w-3xl">
+  <h2 className="text-2xl font-bold mb-4">💼 Use Cases</h2>
+  <p className="mb-4">
+    Our platform supports a variety of real-world business applications, helping teams think through complex scenarios and innovate faster using AI-driven simulations. Here are some of the core use cases:
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">1. Business Scenario Planning</h3>
+  <p className="mb-4">
+    Map out potential future scenarios and stress-test strategies by simulating diverse business conditions and decision pathways.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">2. Role-based Ideation or Brainstorming</h3>
+  <p className="mb-4">
+    Generate creative ideas by simulating different stakeholder perspectives using AI personas such as CEOs, interns, or product managers.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">3. Simulating Decisions with AI-driven Personas</h3>
+  <p className="mb-4">
+    Analyze the potential impact of decisions by observing how different AI roles respond, creating a dynamic feedback loop.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">4. Product Ideation</h3>
+  <p className="mb-4">
+    Quickly prototype, refine, and iterate on new product concepts through AI-assisted conversations that simulate team collaboration.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">5. Market-fit Discussions</h3>
+  <p className="mb-4">
+    Align product ideas with real market needs by using AI personas to mimic customer and stakeholder feedback.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">6. MVP Scoping</h3>
+  <p className="mb-4">
+    Define and prioritize the minimum viable product by simulating trade-offs, core features, and time-to-market constraints.
+  </p>
+</div>
+
+
+{/* Gen AI Capabilities */}
+<div id="genai" className="text-white mt-10 pt-10 scroll-mt-14 px-4 font-mono text-sm leading-relaxed max-w-3xl">
+  <h2 className="text-2xl font-bold mb-4">🔑 Gen AI Capabilities</h2>
+  <p className="mb-4">
+    Our system leverages the latest in generative AI and multi-agent orchestration to simulate collaborative workflows across defined roles. Below are the core capabilities that power the experience:
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">1. Agents</h3>
+  <p className="mb-4">
+    Multiple autonomous roles—including a CEO, Marketing Intern, and Marketing Strategist—act as distinct agents with specialized prompts and responsibilities. These agents communicate using <strong>LangGraph</strong> to coordinate and simulate realistic workflows.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">2. Function Calling (LangGraph)</h3>
+  <p className="mb-4">
+    LangGraph facilitates conditional logic and function-like transitions, such as <code>check_end</code>, allowing agents to pass control based on predefined logic—mimicking real-time function calls across roles.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">3. Long Context Window</h3>
+  <p className="mb-4">
+    Agents benefit from extended memory, enabling them to build on prior interactions. This supports rich continuity and deeper simulation fidelity.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">4. Structured Output & Controlled Generation</h3>
+  <p className="mb-4">
+    Each agent’s output is formatted by role and stage, allowing for consistent, structured conversation flows. This reflects early-stage implementations of controlled generative output.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">5. GenAI Evaluation</h3>
+  <p className="mb-4">
+    The Marketing Strategist agent reviews and evaluates ideas proposed by the Intern agent. This simulates a generative feedback loop—using GenAI to assess and refine GenAI-generated content.
+  </p>
+</div>
+
+{/* Key Technologies */}
+<div id="technologies" className="text-white mt-10 pt-10 scroll-mt-14 px-4 font-mono text-sm leading-relaxed max-w-3xl">
+  <h2 className="text-2xl font-bold mb-4">🛠️ Key Technologies</h2>
+  <p className="mb-4">
+    Our system is built using a modern AI stack, leveraging powerful frameworks and tools that enable seamless orchestration, generation, and interaction. Below are the core technologies we use:
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">1. LangGraph</h3>
+  <p className="mb-4">
+    Used for agent orchestration, LangGraph allows agents to interact through stateful graphs. This enables dynamic workflows, decision branching, and coordinated multi-agent processes.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">2. LangChain</h3>
+  <p className="mb-4">
+    Provides essential components like memory, tools, and model abstraction to streamline interactions between the agents and the underlying LLM infrastructure.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">3. Gradio</h3>
+  <p className="mb-4">
+    Enables a simple and intuitive user interface within a notebook or web app setting. Gradio is used for live demos, testing, and showcasing model outputs in a user-friendly way.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">4. Google Gemini</h3>
+  <p className="mb-4">
+    Acts as the LLM backbone powering agent responses. Gemini supports high-quality generative output and multimodal reasoning across the simulation.
+  </p>
+
+  <h3 className="text-lg font-semibold mt-6 mb-2">5. Google Cloud Console</h3>
+  <p className="mb-4">
+    Used for deploying and managing infrastructure, APIs, and billing. Google Cloud Console provides a centralized platform to monitor usage, manage credentials, and access advanced cloud services.
+  </p>
+</div>
+
+
 
       {/* Privacy Policy */}
       <div id="privacy" className="text-white mt-10 pt-10 scroll-mt-14 px-4 font-mono text-sm leading-relaxed max-w-3xl">
@@ -292,6 +406,19 @@ export default function BusinessBoardroom() {
         <br />
         Contact us at: <a href="mailto:ianiket23@gmail.com" className="underline text-blue-400">ianiket23@gmail.com</a>
       </p>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <div id="contact" className="text-white mt-10 pt-10 scroll-mt-14 px-4 font-mono text-sm leading-relaxed max-w-3xl border-t border-white">
+      <h1 className=" text-9xl font-bold mb-4">👔🧃📊</h1>
+      <p className="text-sm max-w-xl">
+        Made by <a href="https://www.linkedin.com/in/ianiket23/" className="underline text-blue-400">Aniket Mishra</a> @2025
+        <br />
+        Check out my <a href="https://ianiket23.github.io/" className="underline text-blue-400">portfolio</a> for more projects.
+        <br />
+        </p>
     </div>
 
     </main>
