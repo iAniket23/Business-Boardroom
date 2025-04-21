@@ -89,6 +89,7 @@ export default function BusinessBoardroom() {
             <a href="#slack" className="hover:underline">Slack</a>
             <a href="https://www.kaggle.com/code/ianiket23/business-boardroom-kaggle-edition" className="hover:underline">Kaggle</a>
             <a href="#privacy" className="hover:underline">Privacy</a>
+            <a href="#terms" className="hover:underline">Terms</a>
             <a href="#contact" className="hover:underline">Contact</a>
           </nav>
           </div>
@@ -204,6 +205,50 @@ export default function BusinessBoardroom() {
         <p className="mb-4">We may update this policy. Changes will be posted here with an updated date.</p>
       </div>
 
+
+      {/* Terms of Service */}
+      <div id="terms" className="text-white mt-10 pt-10 scroll-mt-12 px-4 font-mono text-sm leading-relaxed max-w-3xl">
+        <h2 className="text-2xl font-bold mb-4">⚖️ Terms of Service</h2>
+        <p className="mb-2">Last updated: April 17, 2025</p>
+
+        <p className="mb-4">
+          Welcome to <strong>Business Boardroom</strong>. By using our web app or Slack extension, you agree to be bound by the following terms. Please read them carefully.
+        </p>
+
+        <h3 className="text-lg font-semibold mt-6 mb-2">1. Acceptance of Terms</h3>
+        <p className="mb-4">
+          By accessing or using our services, you confirm your acceptance of these Terms of Service. If you do not agree, you may not use the platform.
+        </p>
+
+        <h3 className="text-lg font-semibold mt-6 mb-2">2. Use of Service</h3>
+        <ul className="list-disc list-inside mb-4">
+          <li>Use the service only for lawful and intended purposes.</li>
+          <li>Do not attempt to disrupt or compromise the platform’s integrity or security.</li>
+        </ul>
+
+        <h3 className="text-lg font-semibold mt-6 mb-2">3. Account Responsibility</h3>
+        <p className="mb-4">
+          You are responsible for all activity under your account. Notify us immediately if you suspect unauthorized access.
+        </p>
+
+        <h3 className="text-lg font-semibold mt-6 mb-2">4. Limitation of Liability</h3>
+        <p className="mb-4">
+          We are not liable for any indirect, incidental, or consequential damages arising from your use of the service.
+        </p>
+
+        <h3 className="text-lg font-semibold mt-6 mb-2">5. Modifications</h3>
+        <p className="mb-4">
+          We may update these terms from time to time. Continued use of the service after changes constitutes your acceptance of the new terms.
+        </p>
+
+        <h3 className="text-lg font-semibold mt-6 mb-2">6. Termination</h3>
+        <p className="mb-4">
+          We reserve the right to terminate or suspend access to our service for any reason, without prior notice.
+        </p>
+      </div>
+
+
+      {/* Contact Section */}
       <div id="contact" className="text-white mt-10 pt-10 scroll-mt-12 px-4 font-mono text-sm leading-relaxed max-w-3xl">
       <h2 className=" text-2xl font-bold mb-4">📬 Contact</h2>
       <p className="text-sm max-w-xl">
