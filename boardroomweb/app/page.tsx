@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Head from "next/head";
 
 export default function BusinessBoardroom() {
   const [text, setText] = useState("");
@@ -65,6 +66,14 @@ export default function BusinessBoardroom() {
   };
 
   return (
+    <><Head>
+    <title>Business Boardroom</title>
+    <meta property="og:title" content="Business Boardroom" />
+    <meta property="og:description" content="Designed for product ideation, marketing analysis, and strategic decision-making." />
+    <meta property="og:image" content="https://imgur.com/a/SrKy6B7" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://boardroom-197814739607.us-central1.run.app/" />
+  </Head>
     <main className="min-h-screen bg-black text-white p-8 font-mono">
 
       {/* Navbar */}
@@ -106,7 +115,7 @@ export default function BusinessBoardroom() {
 
       <div className="flex justify-around text-lg mt-2">
         <span>👔 CEO</span>
-        <span>🧃 Marketing Intern</span>
+        <span>🧃 Intern</span>
         <span>📊 Analyst</span>
       </div>
 
@@ -422,5 +431,6 @@ export default function BusinessBoardroom() {
     </div>
 
     </main>
+    </>
   );
 }
