@@ -9,11 +9,5 @@ It is a full-stack application that simulates structured conversations between m
 - **Blogpost**:  [https://medium.com/@ianiket23/reimagining-the-boardroom-a-genai-powered-business-simulation-80e9c20a41ed](https://medium.com/@ianiket23/reimagining-the-boardroom-a-genai-powered-business-simulation-80e9c20a41ed)
 - **Endpoint**:  [https://boardroom-197814739607.us-central1.run.app/](https://boardroom-197814739607.us-central1.run.app/)
 
-## Features
-
-## Use cases
-
-## Technology
-
 ## License
 [MIT License](LICENSE)
